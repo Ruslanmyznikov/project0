@@ -3,13 +3,27 @@ var ManifestPlugin = require('webpack-manifest-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './app/src/main.js',
+  entry: {
+    home: ['./app/src/main.js', './app/src/style.scss'],
+    firstPage: ['./app/src/pages/first-page/first-page.js', './app/src/pages/first-page/first-page.scss']
+  },
   output: {
     path: path.resolve(__dirname, './app/dist'),
-    filename: 'bundle.js'
+    filename: '[name].bundle.js'
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: 'app/src/index.html' }),
+    new HtmlWebpackPlugin({
+      template: 'app/src/index.html',
+      inject: true,
+      chunks: ['home'],
+      filename: 'index.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: 'app/src/pages/first-page/first-page.html',
+      inject: true,
+      chunks: ['firstPage'],
+      filename: 'first-page'
+    }),
     new ManifestPlugin()],
   mode: 'development',
   devServer: { contentBase: './app/dist' },
