@@ -1,11 +1,13 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
-
+const rootFolder = './app/src/' 
 module.exports = {
+  devtool: 'source-map',
   entry: {
-    home: ['./app/src/main.js', './app/src/style.scss'],
-    firstPage: ['./app/src/pages/first-page/first-page.js', './app/src/pages/first-page/first-page.scss']
+    home: [rootFolder + 'main.js', rootFolder + 'style.scss'],
+    firstPage: [rootFolder + 'pages/first-page/first-page.js', rootFolder + 'pages/first-page/first-page.scss']
   },
   output: {
     path: path.resolve(__dirname, './app/dist'),
@@ -13,18 +15,19 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'app/src/index.html',
+      template: rootFolder + 'index.html',
       inject: true,
       chunks: ['home'],
       filename: 'index.html'
     }),
     new HtmlWebpackPlugin({
-      template: 'app/src/pages/first-page/first-page.html',
+      template: rootFolder + 'pages/first-page/first-page.html',
       inject: true,
       chunks: ['firstPage'],
-      filename: 'first-page'
+      filename: 'first-page.html'
     }),
-    new ManifestPlugin()],
+    new ManifestPlugin(),
+    new CleanWebpackPlugin()],
   mode: 'development',
   devServer: { contentBase: './app/dist' },
   module: {
@@ -45,6 +48,16 @@ module.exports = {
         enforce: 'pre',
         use: ['source-map-loader'],
       },
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
     ]
   }
 };
