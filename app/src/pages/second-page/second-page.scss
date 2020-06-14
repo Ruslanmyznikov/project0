@@ -1,1 +1,19 @@
 @import '../../style.scss';
+
+.wrapper {
+  width: 400px;
+  height: 400px;
+  background-color: $base-color;
+  @media screen and (max-width: 900px) {
+    background-color: black;
+  }
+  &__child {
+    width: 150px;
+    height: 150px;
+    background-color: $common-color;
+  }
+}
+
+.wrapper__inheritence {
+  @extend .wrapper;
+}
