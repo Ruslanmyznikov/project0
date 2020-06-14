@@ -7,7 +7,9 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     home: [rootFolder + 'main.js', rootFolder + 'style.scss'],
-    firstPage: [rootFolder + 'pages/first-page/first-page.js', rootFolder + 'pages/first-page/first-page.scss']
+    firstPage: [rootFolder + 'pages/first-page/first-page.js', rootFolder + 'pages/first-page/first-page.scss'],
+    secondPage: [rootFolder + 'pages/second-page/second-page.js', rootFolder + 'pages/second-page/second-page.scss'],
+    thirdPage: [rootFolder + 'pages/third-page/third-page.js', rootFolder + 'pages/third-page/third-page.scss']
   },
   output: {
     path: path.resolve(__dirname, './app/dist'),
@@ -25,6 +27,18 @@ module.exports = {
       inject: true,
       chunks: ['firstPage'],
       filename: 'first-page.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: rootFolder + 'pages/second-page/second-page.html',
+      inject: true,
+      chunks: ['secondPage'],
+      filename: 'second-page.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: rootFolder + 'pages/third-page/third-page.html',
+      inject: true,
+      chunks: ['thirdPage'],
+      filename: 'third-page.html'
     }),
     new ManifestPlugin(),
     new CleanWebpackPlugin()],
